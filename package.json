@@ -3,16 +3,28 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx nodemon server.js"
   },
   "keywords": [],
   "author": "kellycora",
   "license": "ISC",
-  "description": "",
   "dependencies": {
+    "body": "^5.1.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.10.8",
-    "nodemon": "^2.0.4"
-  }
+    "mongoose": "^5.10.16"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kellyco2019/Proyecto-backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kellyco2019/Proyecto-backend/issues"
+  },
+  "homepage": "https://github.com/kellyco2019/Proyecto-backend#readme",
+  "description": ""
 }
