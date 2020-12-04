@@ -1,9 +1,7 @@
 const express = require ("express");
-const bodyParser = require ("body-parser");
 const cors = require ("cors");
-
+const bodyParser = require ("body-parser");
 const mongoose = require ("mongoose");
-const { response } = require("express");
 
 mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost:27017/chat', { 
   useNewUrlParser: true,
@@ -56,11 +54,12 @@ app.get("/channel/:id", (req,res) => {
 app.post("/channel/:id", (req,res) => {
     const { id } = req.params; 
     const { text , user } = req.body;
+    console.log(text , user)
  
     if (text && user) {
         MessageModel.create({user , text , channel: id})
         .then((result) => {
-        res.status(200).json({result});
+        res.status(200).json(result);
     })
         .catch((error) => {
         res.status(500).json({error});
@@ -68,7 +67,7 @@ app.post("/channel/:id", (req,res) => {
     } else {
         res.status(400).json({error : "missing some parameters"});
     }
-    res.send("ok post channel by id");
+  
 });
 
 app.listen(port, () => {
