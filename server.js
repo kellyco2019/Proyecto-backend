@@ -2,6 +2,7 @@ const express = require ("express");
 const cors = require ("cors");
 const bodyParser = require ("body-parser");
 const mongoose = require ("mongoose");
+const { isObject } = require("util");
 
 mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost:27017/chat', { 
   useNewUrlParser: true,
@@ -25,6 +26,15 @@ const MessageSchema = mongoose.Schema({
 const MessageModel= mongoose.model("Message", MessageSchema);
 
 const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server, {
+       cors: {
+        origin: "*",
+        methods: ["GET" , "POST"],
+       }
+    }
+)
+
 const port = process.env.PORT || 8000;
 
 app.use(cors());
@@ -59,6 +69,7 @@ app.post("/channel/:id", (req,res) => {
     if (text && user) {
         MessageModel.create({user , text , channel: id})
         .then((result) => {
+        io.emit("newMessage", result );    
         res.status(200).json(result);
     })
         .catch((error) => {
@@ -70,6 +81,11 @@ app.post("/channel/:id", (req,res) => {
   
 });
 
-app.listen(port, () => {
+//Sockets 
+io.on('connection', () => {
+    console.log("new conection sockets")
+});
+
+server.listen(port, () => { 
 console.log(`Listening on port ${port}`)
 });
